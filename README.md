@@ -1,57 +1,107 @@
-# Sample Hardhat 3 Beta Project (`node:test` and `viem`)
+# Hardhat 3 튜토리얼
 
-This project showcases a Hardhat 3 Beta project using the native Node.js test runner (`node:test`) and the `viem` library for Ethereum interactions.
+Hardhat 3 Beta 프로젝트 (`node:test` + `viem`)
 
-To learn more about the Hardhat 3 Beta, please visit the [Getting Started guide](https://hardhat.org/docs/getting-started#getting-started-with-hardhat-3). To share your feedback, join our [Hardhat 3 Beta](https://hardhat.org/hardhat3-beta-telegram-group) Telegram group or [open an issue](https://github.com/NomicFoundation/hardhat/issues/new) in our GitHub issue tracker.
+## 배포된 컨트랙트
 
-## Project Overview
+### Myto (ERC20 토큰)
 
-This example project includes:
+| 항목 | 값 |
+|-----|---|
+| 네트워크 | Polygon Amoy (테스트넷) |
+| 주소 | `0x7dD7c0c8b792a2b819f85DA3c7d978C7225A3Ebf` |
+| 이름 / 심볼 | Myto / MT |
+| Owner만 민트 가능 | ✓ |
 
-- A simple Hardhat configuration file.
-- Foundry-compatible Solidity unit tests.
-- TypeScript integration tests using [`node:test`](nodejs.org/api/test.html), the new Node.js native test runner, and [`viem`](https://viem.sh/).
-- Examples demonstrating how to connect to different types of networks, including locally simulating OP mainnet.
+[Polygonscan에서 보기](https://amoy.polygonscan.com/address/0x7dD7c0c8b792a2b819f85DA3c7d978C7225A3Ebf)
 
-## Usage
+## 프로젝트 구조
 
-### Running Tests
+```
+contracts/
+├── Counter.sol      # 카운터 컨트랙트 (튜토리얼)
+├── Counter.t.sol    # 카운터 Solidity 테스트
+├── Myto.sol         # ERC20 토큰 컨트랙트
+└── Myto.t.sol       # Myto Solidity 테스트
 
-To run all the tests in the project, execute the following command:
+test/
+└── Counter.ts       # TypeScript 통합 테스트
 
-```shell
-npx hardhat test
+ignition/modules/
+├── Counter.ts       # Counter 배포 모듈
+└── Myto.ts          # Myto 배포 모듈
 ```
 
-You can also selectively run the Solidity or `node:test` tests:
+## 명령어
+
+### 빌드
 
 ```shell
-npx hardhat test solidity
-npx hardhat test nodejs
+pnpm hardhat build
 ```
 
-### Make a deployment to Sepolia
-
-This project includes an example Ignition module to deploy the contract. You can deploy this module to a locally simulated chain or to Sepolia.
-
-To run the deployment to a local chain:
+### 테스트
 
 ```shell
-npx hardhat ignition deploy ignition/modules/Counter.ts
+pnpm hardhat test              # 전체 테스트
+pnpm hardhat test solidity     # Solidity만
+pnpm hardhat test nodejs       # TypeScript만
 ```
 
-To run the deployment to Sepolia, you need an account with funds to send the transaction. The provided Hardhat configuration includes a Configuration Variable called `SEPOLIA_PRIVATE_KEY`, which you can use to set the private key of the account you want to use.
-
-You can set the `SEPOLIA_PRIVATE_KEY` variable using the `hardhat-keystore` plugin or by setting it as an environment variable.
-
-To set the `SEPOLIA_PRIVATE_KEY` config variable using `hardhat-keystore`:
+### 커버리지
 
 ```shell
-npx hardhat keystore set SEPOLIA_PRIVATE_KEY
+pnpm hardhat test --coverage
 ```
 
-After setting the variable, you can run the deployment with the Sepolia network:
+## 배포
+
+### 로컬 시뮬레이션 (임시)
 
 ```shell
-npx hardhat ignition deploy --network sepolia ignition/modules/Counter.ts
+pnpm hardhat ignition deploy ignition/modules/Myto.ts
 ```
+
+### 로컬 노드
+
+```shell
+# 터미널 1: 노드 실행
+pnpm hardhat node
+
+# 터미널 2: 배포
+pnpm hardhat ignition deploy ignition/modules/Myto.ts --network localhost
+```
+
+### 배포된 컨트랙트와 상호작용
+
+```shell
+pnpm hardhat console --network localhost
+```
+
+```typescript
+const { viem } = await network.connect();
+const myto = await viem.getContractAt("Myto", "<배포된_주소>");
+
+// 1000 토큰 민트
+const [owner] = await viem.getWalletClients();
+await myto.write.mint([owner.account.address, 1000n * 10n ** 18n]);
+
+// 잔액 확인
+await myto.read.balanceOf([owner.account.address]);
+```
+
+### Polygon Amoy 테스트넷
+
+```shell
+# 개인키 설정
+pnpm hardhat keystore set AMOY_PRIVATE_KEY
+
+# 배포
+pnpm hardhat ignition deploy ignition/modules/Myto.ts --network amoy
+```
+
+## 참고
+
+- [Hardhat 3 시작하기](https://hardhat.org/docs/getting-started)
+- [Hardhat Ignition](https://hardhat.org/ignition/docs)
+- [viem](https://viem.sh/)
