@@ -100,6 +100,40 @@ pnpm hardhat keystore set AMOY_PRIVATE_KEY
 pnpm hardhat ignition deploy ignition/modules/Myto.ts --network amoy
 ```
 
+## Solidity 학습 진행 (Solidity by Example)
+
+### 완료
+
+- [x] Hello World
+- [x] First App (Counter)
+- [x] Primitive Data Types
+- [x] Variables
+- [x] Constants & Immutable
+
+### 다음
+
+- [ ] Reading and Writing to State Variable
+- [ ] Ether and Wei
+- [ ] Gas and Gas Price
+- [ ] If/Else
+- [ ] For and While Loop
+- [ ] Mapping
+- [ ] Array
+- [ ] Enum
+- [ ] Struct
+- [ ] Data Locations (Storage, Memory, Calldata)
+- [ ] Function
+- [ ] View and Pure Functions
+- [ ] Error (require, revert, assert)
+- [ ] Modifier
+- [ ] Events
+- [ ] Constructor
+- [ ] Inheritance
+- [ ] Visibility
+- [ ] Interface
+
+참고: https://solidity-by-example.org
+
 ## 참고
 
 - [Hardhat 3 시작하기](https://hardhat.org/docs/getting-started)
