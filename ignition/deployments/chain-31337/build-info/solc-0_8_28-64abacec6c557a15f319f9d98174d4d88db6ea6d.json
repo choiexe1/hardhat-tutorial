@@ -1,0 +1,39 @@
+{
+  "_format": "hh3-sol-build-info-1",
+  "id": "solc-0_8_28-64abacec6c557a15f319f9d98174d4d88db6ea6d",
+  "solcVersion": "0.8.28",
+  "solcLongVersion": "0.8.28+commit.7893614a",
+  "userSourceNameMap": {
+    "contracts/Event.sol": "project/contracts/Event.sol"
+  },
+  "input": {
+    "language": "Solidity",
+    "settings": {
+      "evmVersion": "cancun",
+      "optimizer": {
+        "enabled": true,
+        "runs": 200
+      },
+      "outputSelection": {
+        "*": {
+          "": [
+            "ast"
+          ],
+          "*": [
+            "abi",
+            "evm.bytecode",
+            "evm.deployedBytecode",
+            "evm.methodIdentifiers",
+            "metadata"
+          ]
+        }
+      },
+      "remappings": []
+    },
+    "sources": {
+      "project/contracts/Event.sol": {
+        "content": "// SPDX-License-Identifier: MIT\n\npragma solidity ^0.8.28;\n\ncontract Event {\n    event Log(address indexed from);\n\n    // 이런 이벤트는 SSTORE보단 저렴한 편에 속함\n    // 이벤트는 메시지를 블록체인에 기록하는 것이므로\n    // 메시지의 길이에 따라 가스비가 달라짐..\n    // 외부 시스템에서 이벤트를 리스닝하며 로깅할 때 사용하거나.. 그 외의 이벤트를 통해 어떤 작업을 할 때 사용된다\n    function emitLog() public {\n        emit Log(msg.sender);\n    }\n}\n"
+      }
+    }
+  }
+}
