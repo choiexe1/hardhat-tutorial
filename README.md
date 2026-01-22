@@ -109,15 +109,16 @@ pnpm hardhat ignition deploy ignition/modules/Myto.ts --network amoy
 - [x] Primitive Data Types
 - [x] Variables
 - [x] Constants & Immutable
+- [x] Reading and Writing to State Variable
+- [x] Gas and Gas Price
+- [x] Mapping
+- [x] Events
 
 ### 다음
 
-- [ ] Reading and Writing to State Variable
 - [ ] Ether and Wei
-- [ ] Gas and Gas Price
 - [ ] If/Else
 - [ ] For and While Loop
-- [ ] Mapping
 - [ ] Array
 - [ ] Enum
 - [ ] Struct
@@ -126,7 +127,6 @@ pnpm hardhat ignition deploy ignition/modules/Myto.ts --network amoy
 - [ ] View and Pure Functions
 - [ ] Error (require, revert, assert)
 - [ ] Modifier
-- [ ] Events
 - [ ] Constructor
 - [ ] Inheritance
 - [ ] Visibility
